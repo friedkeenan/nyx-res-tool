@@ -6,6 +6,11 @@ from PIL import Image
 from pathlib import Path
 from hardcoded import *
 
+def offset_to_pad(f, align=0x100):
+    f.seek(0, 2)
+    size = f.tell()
+    return size + align - 1 - ((size + align - 1) & (align - 1))
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--in-dir", help="The input resource directory", default="res", type=Path)
 parser.add_argument("-o", "--out-res", help="The output resource file", default="output.pak", type=Path)
@@ -31,3 +36,5 @@ with args.out_res.open("wb") as f:
     for logo in logos.values():
         f.seek(logo.offset)
         f.write(logo.buffer)
+
+    f.truncate(offset_to_pad(f))
