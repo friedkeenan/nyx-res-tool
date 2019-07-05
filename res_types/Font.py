@@ -35,7 +35,7 @@ class Font:
 
     def insert_bitmap(self, i, im, index=True):
         if im.mode != "L":
-            raise ValueError("Invalid mode")
+            raise ValueError("Invalid mode, save fonts in 8 bit GRAY")
 
         if im.height != self.height:
             raise ValueError("Invalid height")
